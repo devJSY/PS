@@ -1,5 +1,4 @@
 s = input()
-conut = 0
 box = ["c=","c-","dz=","d-","lj","nj","s=","z="]
 
 for i in box:
