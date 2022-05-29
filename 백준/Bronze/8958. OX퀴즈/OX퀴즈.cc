@@ -6,7 +6,7 @@ using namespace std;
 int main()
 {
 	int n, i, j, cnt, result;
-	string a;
+	char a[80];
 	
 	scanf("%d\n", &n);
 	
