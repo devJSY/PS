@@ -1,23 +1,22 @@
-#include<iostream>
+#include <iostream>
 
 int main()
 {
-	int i, n, count=0, max = 0, maxcount = 0;
-
-	for (i = 0; i < 9; ++i)
+	int a, Idx, max = -2147000000;	
+	
+	for(int i =1; i <= 9; ++i)
 	{
-		scanf("%d", &n);
-		++count;
-
-		if (max < n)
+		scanf("%d", &a);
+		
+		if(max < a)
 		{
-			max = n;
-			maxcount = count;
+			max = a;
+			Idx = i;
 		}
 	}
-
-	printf("%d\n", max);
-	printf("%d\n", maxcount);
-
+	
+	printf("%d\n%d", max, Idx);
+	
+	
 	return 0;
 }
