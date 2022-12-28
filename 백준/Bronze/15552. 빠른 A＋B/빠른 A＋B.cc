@@ -2,16 +2,16 @@
 
 int main()
 {
-	int i, T, A, B;
-
-	scanf("%d", &T);
-
-	for (i = 0; i < T; ++i)
+	int t, a, b;
+	
+	scanf("%d", &t);
+	
+	for(int i = 0; i < t; ++i)
 	{
-		scanf("%d %d", &A, &B);
-		printf("%d\n", A + B);
+		scanf("%d %d", &a, &b);
+		printf("%d\n", a+b);
 	}
 
+	
 	return 0;
 }
-
