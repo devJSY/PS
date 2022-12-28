@@ -1,4 +1,4 @@
-# [Bronze III] A+B - 8 - 11022 
+# [Bronze V] A+B - 8 - 11022 
 
 [문제 링크](https://www.acmicpc.net/problem/11022) 
 
@@ -8,7 +8,7 @@
 
 ### 분류
 
-사칙연산(arithmetic), 구현(implementation), 수학(math)
+구현(implementation), 사칙연산(arithmetic), 수학(math)
 
 ### 문제 설명
 
