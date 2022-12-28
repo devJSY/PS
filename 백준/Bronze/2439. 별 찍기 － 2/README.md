@@ -1,4 +1,4 @@
-# [Bronze III] 별 찍기 - 2 - 2439 
+# [Bronze IV] 별 찍기 - 2 - 2439 
 
 [문제 링크](https://www.acmicpc.net/problem/2439) 
 
