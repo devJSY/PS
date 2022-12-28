@@ -1,18 +1,29 @@
-#include<iostream>
+#include <iostream>
 
-int main() 
+int main()
 {
-    int n, init, count = 0;
-    scanf("%d", &n);
-    init = n;
-    int a, b, c, d;
-    do {
-        a = n / 10;
-        b = n % 10;
-        c = (a + b) / 10;
-        d = (a + b) % 10;
-        n = b * 10 + d;
-        count++;
-    } while (n != init);
-    printf("%d", count);
+	int n,a,b,sum = 0,cnt = 0;
+	
+	scanf("%d", &n);
+		
+	sum = n;
+	
+	while(1)	
+	{			
+		a = sum / 10;
+		b = sum % 10;
+		
+		sum = a+b;
+		
+		sum = b*10 + sum % 10;
+		
+		++cnt;
+		
+		if(n == sum)
+		break;
+	}
+	
+	printf("%d", cnt);
+	
+	return 0;
 }
