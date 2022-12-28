@@ -1,43 +1,44 @@
-#include<iostream>
-#include<vector>
-#include<algorithm>
+#include <iostream>
 
 using namespace std;
 
 int main()
 {
-	int n, t, i, j, k, count = 0;
-	double ave, result = 0;
-
-	scanf("%d", &n);
-
-	vector <int> a(1000);
-
-	for (i = 0; i < n; ++i)
+	int i, j, c, n, aver, a[1000], cnt;
+	double result;
+	
+	scanf("%d", &c);
+	
+	for(i = 0; i< c; ++i)
 	{
-		ave = 0;
-		count = 0;
-
-		scanf("%d", &t);
-		for (j = 0; j < t; ++j)
+		scanf("%d", &n);
+		aver = 0;
+		cnt = 0;
+		result = 0;
+		
+		for(j = 0; j <n; ++j)
 		{
 			scanf("%d", &a[j]);
-			ave += a[j];
+			aver += a[j];
 		}
-
-		ave /= t;
-
-		for (k = 0; k < t; ++k)
+		
+		aver = aver / n;
+		
+		for(j = 0; j <n; ++j)
 		{
-			if (ave < a[k]) count++;
+			if(a[j] > aver)
+			{
+				++cnt;
+			}
+		
+			a[j] = 0;
 		}
 		
-		result = (100 / float(k)) * count;
+		result = 100 / (double)n;
 		
-		printf("%.3lf%\n", result);
+		printf("%.3lf%\n", result * cnt);
+				
 	}
-
+	
 	return 0;
 }
-
-
