@@ -1,4 +1,4 @@
-# [Bronze IV] 손익분기점 - 1712 
+# [Bronze II] 손익분기점 - 1712 
 
 [문제 링크](https://www.acmicpc.net/problem/1712) 
 
@@ -8,7 +8,7 @@
 
 ### 분류
 
-사칙연산(arithmetic), 수학(math)
+수학(math), 사칙연산(arithmetic)
 
 ### 문제 설명
 

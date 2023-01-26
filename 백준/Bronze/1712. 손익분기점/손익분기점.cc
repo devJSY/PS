@@ -1,22 +1,22 @@
-#include<iostream>
+#include <iostream>
 
-int main(){
+
+int main()
+{
+	int a,b,c;
 	
-	int a,b,c,sum,sum2;
+	scanf("%d%d%d", &a, &b, &c);
 	
-	scanf("%d%d%d", &a, &b ,&c);
+	c -= b;
 	
-	sum  = c - b;
-	
-	if (b >= c) 
+	if(c <= 0) printf("-1");
+	else
 	{
-		printf("-1");
-		exit(0);
+		int result = a / c + 1;
+		printf("%d", result);		
 	}
-	
-	sum2 = a / sum + 1;
-	
-	printf("%d", sum2);
-	
+
+
 	return 0;
 }
+
