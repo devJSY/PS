@@ -22,7 +22,7 @@ void DFS(int L, vector<int>& vec, int sum, int m)
     }
     else
     {
-        for (size_t i = L; i < vec.size(); i++)
+        for (size_t i = 0; i < vec.size(); i++)
         {
             if (ch[i] == 0)
             {
