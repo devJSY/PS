@@ -27,7 +27,7 @@ int main()
 		}
 		else
 		{
-			Map[name] = access;
+			Map.insert({name, access});
 		}
 	}
 
