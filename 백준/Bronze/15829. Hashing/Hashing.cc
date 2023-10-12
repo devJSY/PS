@@ -3,27 +3,32 @@
 
 using namespace std;
 
+#define Mod 1234567891
+
 int main()
 {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	cout.tie(NULL);
 
-	int n = 0;
+	int L;
+	long long hash = 0;
+	string str;
+	char a;
+	
+	cin >> L;
+	cin >> str;
 
-	cin >> n;
+	long long r = 1;
 
-	long long result = 0;
-
-	for (size_t i = 0; i < n; i++)
+	for (size_t i = 0; i < L; i++)
 	{
-		char ch;
-		cin >> ch;
-
-		result += (ch - 96) * pow(31, i);
+		a = str[i];
+		hash = (hash + (a - 96) * r) % Mod;
+		r = (r * 31) % Mod;
 	}
 
-	cout << result << endl;
+	cout << hash << endl;
 
 	return 0;
 }
