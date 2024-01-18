@@ -14,19 +14,12 @@ int main()
     vector<int> Barr(N);
 
     for (size_t i = 0; i < N; i++)
-    {
         cin >> Aarr[i];
-    }
 
     for (size_t i = 0; i < N; i++)
-    {
         cin >> Barr[i];
-    }
 
-    sort(Aarr.begin(), Aarr.end());
-    reverse(Aarr.begin(), Aarr.end());
-
-    long long result = 0;
+    int result = 0;
 
     for (size_t i = 0; i < N; i++)
     {
