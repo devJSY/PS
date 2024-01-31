@@ -1,37 +1,37 @@
-#include <iostream>
-#include <math.h>
+#include <bits/stdc++.h>
 
 using namespace std;
 
-bool IsPrimeNum(int n)
-{
-	for (size_t i = 2; i <= sqrt(n); i++)
-	{
-		if (n % i == 0) return false;
-	}
-
-	return true;
-}
+bool primes[1000005] = {};
 
 int main()
 {
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
+    ios::sync_with_stdio(0);
+    cin.tie(0);
 
-	int n = 0;
-	int m = 0;
+    int N, M;
+    cin >> N >> M;
 
-	cin >> n >> m;
+    primes[0] = primes[1] = true;
 
-	for (size_t i = n; i <= m; i++)
-	{
-		if (i >= 0 && i <= 1) continue;
-		else
-		{
-			if (IsPrimeNum(i)) cout << i << '\n';
-		}			
-	}
+    for (int i = 2; i * i <= M; i++)
+    {
+        if (primes[i])
+            continue;
+        else
+        {
+            for (int j = 2; j * i <= M; j++)
+            {
+                primes[i * j] = true;
+            }
+        }
+    }
 
-	return 0;
+    for (int i = N; i <= M; i++)
+    {
+        if (!primes[i])
+            cout << i << '\n';
+    }
+
+    return 0;
 }
