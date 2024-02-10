@@ -1,40 +1,46 @@
-#include <iostream>
-
-#define SIZE 300000
+#include <bits/stdc++.h>
 
 using namespace std;
 
-int prime[SIZE] = {1,1};
+int N = 123456.f * 2.f;
 
 int main()
 {
-    int n = 0;
+    ios::sync_with_stdio(0);
+    cin.tie(0);
 
-    // 에라토스테네스의 체 
-    for (int i = 2; i < SIZE; i++)
+    vector<bool> primes(N + 1, true);
+
+    primes[0] = primes[1] = false;
+    for (int i = 2; i * i <= N; i++)
     {
-        for (int j = i + i; j < SIZE; j += i)
+        if (!primes[i])
+            continue;
+
+        for (int j = i + i; j <= N; j += i)
         {
-            prime[j] = 1;
+            primes[j] = false;
         }
     }
 
     while (1)
     {
+        int n;
         cin >> n;
-        if (n == 0) break;
-        else
+        if (n == 0)
+            break;
+
+        int result = 0;
+        for (int i = n + 1; i <= 2 * n; i++)
         {
-            int num = 0;
+            if (!primes[i])
+                continue;
 
-            for (int i = n + 1; i <= 2 * n; i++)
-            {
-                if (prime[i] == 0) num++;
-            }
-
-            cout << num << '\n';
+            result++;
         }
+
+        cout << result << '\n';
     }
-  
+
     return 0;
 }
