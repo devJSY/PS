@@ -1,52 +1,60 @@
-#include <iostream>
-#include <algorithm>
+#include <bits/stdc++.h>
 
 using namespace std;
 
-int N, M;
-int arr[100010];
+int answer[100005] = {};
+int arr[100005] = {};
 
-void binarySearch(int key) {
-    int start = 0;
-    int end = N - 1;
-    int mid;
+bool binarySearch(int _st, int _ed, int _val)
+{
+    int mid = (_st + _ed) / 2;
 
-    while (end >= start) {
-        mid = (start + end) / 2;
-        if (arr[mid] == key) {
-            cout << 1 << "\n";
-            return;
-        }
-        else if (arr[mid] > key) {
-            end = mid - 1;
-        }
-        else {
-            start = mid + 1;
-        }
+    if (arr[mid] == _val)
+        return true;
+
+    if (_ed < _st)
+        return false;
+
+    if (arr[mid] < _val)
+    {
+        return binarySearch(mid + 1, _ed, _val);
     }
-    cout << 0 << "\n";
-    return;
+    else
+    {
+        return binarySearch(_st, mid - 1, _val);
+    }
 }
 
-
-int main() 
+int main()
 {
-    ios_base::sync_with_stdio(0); 
+    ios::sync_with_stdio(0);
     cin.tie(0);
 
+    int N;
     cin >> N;
-    int temp;
 
-    for (int i = 0; i < N; i++) {
-        cin >> arr[i];
+    for (size_t i = 0; i < N; i++)
+    {
+        int input;
+        cin >> input;
+        arr[i] = input;
     }
 
     sort(arr, arr + N);
 
+    int M;
     cin >> M;
-    for (int i = 0; i < M; i++) {
-        cin >> temp;
-        binarySearch(temp);
+
+    for (size_t i = 0; i < M; i++)
+    {
+        int input;
+        cin >> input;
+        answer[i] = input;
+    }
+
+    for (size_t i = 0; i < M; i++)
+    {
+        cout << binarySearch(0, N - 1, answer[i]) << '\n';
     }
 
     return 0;
