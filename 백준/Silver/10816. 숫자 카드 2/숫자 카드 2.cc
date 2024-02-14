@@ -1,35 +1,66 @@
-#include <iostream>
-#include <unordered_map>
+#include <bits/stdc++.h>
 
 using namespace std;
 
+int arr[500005] = {};
+int N, M;
+
+int upper_Idx(int len, int val)
+{
+    int st = 0;
+    int en = len;
+
+    while (st < en)
+    {
+        int mid = (st + en) / 2;
+        if (arr[mid] > val)
+            en = mid;
+        else
+            st = mid + 1;
+    }
+
+    return st;
+}
+
+int lower_Idx(int len, int val)
+{
+    int st = 0;
+    int en = len;
+
+    while (st < en)
+    {
+        int mid = (st + en) / 2;
+        if (arr[mid] >= val)
+            en = mid;
+        else
+            st = mid + 1;
+    }
+
+    return st;
+}
+
 int main()
 {
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
+    ios::sync_with_stdio(0);
+    cin.tie(0);
 
-	int n = 0;
-	cin >> n;
+    cin >> N;
 
-	unordered_map<int, int> Map;
+    for (size_t i = 0; i < N; i++)
+    {
+        cin >> arr[i];
+    }
 
-	int num = 0;
+    sort(arr, arr + N);
 
-	for (size_t i = 0; i < n; i++)
-	{
-		cin >> num;
-		Map[num]++;
-	}
+    cin >> M;
 
-	int m = 0;
-	cin >> m;
+    for (size_t i = 0; i < M; i++)
+    {
+        int val;
+        cin >> val;
+        cout << upper_Idx(N, val) - lower_Idx(N, val) << " ";
+    }
 
-	for (int i = 0; i < m; i++)
-	{
-		cin >> num;
-		cout << Map[num] << " ";
-	}
-
-	return 0;
+    return 0;
 }
