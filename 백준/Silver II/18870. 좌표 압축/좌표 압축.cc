@@ -3,7 +3,6 @@
 using namespace std;
 
 int arr[1000005] = {};
-int sortedArr[1000005] = {};
 
 int main()
 {
@@ -13,30 +12,20 @@ int main()
     int N;
     cin >> N;
 
+    vector<int> vec;
+
     for (size_t i = 0; i < N; i++)
     {
         cin >> arr[i];
-        sortedArr[i] = arr[i];
+        vec.push_back(arr[i]);
     }
 
-    sort(sortedArr, sortedArr + N);
+    sort(vec.begin(), vec.end());
 
-    vector<int> vec;
-
-    for (size_t i = 0; i < N - 1; i++)
-    {
-        if (sortedArr[i] != sortedArr[i + 1])
-        {
-            vec.push_back(sortedArr[i]);
-        }
-    }
+    vec.erase(unique(vec.begin(), vec.end()), vec.end());
 
     for (size_t i = 0; i < N; i++)
-    {
-        int idx = lower_bound(vec.begin(), vec.end(), arr[i]) - vec.begin();
-
-        cout << idx << " ";
-    }
+        cout << lower_bound(vec.begin(), vec.end(), arr[i]) - vec.begin() << " ";
 
     return 0;
 }
