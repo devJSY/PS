@@ -1,43 +1,32 @@
-#include <iostream>
-#include <set>
+#include <bits/stdc++.h>
 
 using namespace std;
 
+int N, M;
+int arr[500005] = {};
+
 int main()
 {
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
+    ios::sync_with_stdio(0);
+    cin.tie(0);
 
-	int n = 0;
-	cin >> n;
+    cin >> N;
 
-	set<int> set;
+    for (size_t i = 0; i < N; i++)
+    {
+        cin >> arr[i];
+    }
 
-	for (size_t i = 0; i < n; i++)
-	{
-		int num = 0;
-		cin >> num;
-		set.insert(num);
-	}
+    sort(arr, arr + N);
 
-	int m = 0;
-	cin >> m;
+    cin >> M;
 
-	for (size_t i = 0; i < m; i++)
-	{
-		int num = 0;
-		cin >> num;
+    for (size_t i = 0; i < M; i++)
+    {
+        int input;
+        cin >> input;
+        cout << binary_search(arr, arr + N, input) << " ";
+    }
 
-		if (set.find(num) == set.end())
-		{
-			cout << 0 << " ";
-		}
-		else
-		{
-			cout << 1 << " ";
-		}
-	}
-	
-	return 0;
+    return 0;
 }
