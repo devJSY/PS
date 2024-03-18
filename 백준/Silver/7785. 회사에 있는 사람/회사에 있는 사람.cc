@@ -1,39 +1,34 @@
-#include <iostream>
-#include <map>
-#include <string>
+#include <bits/stdc++.h>
+#include <unordered_map>
 
 using namespace std;
 
 int main()
 {
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
+    ios::sync_with_stdio(0);
+    cin.tie(0);
 
-	int n = 0;
-	cin >> n;
+    map<string, string, greater<string>> map;
 
-	map<string, string, greater<string>> Map;
+    int N;
 
-	string name;
-	string access;
+    cin >> N;
 
-	for (size_t i = 0; i < n; i++)
-	{
-		cin >> name >> access;
-		if (Map.find(name) != Map.end())
-		{
-			Map.erase(name);
-		}
-		else
-		{
-			Map.insert({name, access});
-		}
-	}
+    for (size_t i = 0; i < N; i++)
+    {
+        string name, work;
+        cin >> name >> work;
 
-	for (auto iter : Map) {
-		cout << iter.first << '\n';
-	}
+        map[name] = work;
+    }
 
-	return 0;
+    for (const auto& iter : map)
+    {
+        if ("enter" == iter.second)
+        {
+            cout << iter.first << '\n';
+        }
+    }
+
+    return 0;
 }
