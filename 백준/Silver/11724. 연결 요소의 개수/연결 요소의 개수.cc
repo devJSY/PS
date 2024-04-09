@@ -1,53 +1,60 @@
-#include <iostream>
-#include <vector>
+#include <bits/stdc++.h>
 
 using namespace std;
 
-vector<int> vec[1001];
-bool ch[1001];
+vector<int> Vertex[1005];
+bool vist[1005] = {};
+int N, M;
 
-void DFS(int n)
+int BFS()
 {
-    ch[n] = true;
-
-    for (size_t i = 0; i < vec[n].size(); i++)
-    {
-        if (!ch[vec[n][i]])
-            DFS(vec[n][i]);
-    }
-}
-
-int main() 
-{
-    ios_base::sync_with_stdio(0); 
-    cin.tie(0);
-
-    int n = 0;
-    int m = 0;
-
-    cin >> n >> m;
-
-    for (size_t i = 0; i < m; i++)
-    {
-        int a = 0;
-        int b = 0;
-        cin >> a >> b;
-        vec[a].push_back(b);
-        vec[b].push_back(a);
-    }
-
     int result = 0;
-
-    for (size_t i = 1; i <= n; i++)
+    for (int i = 1; i <= N; i++)
     {
-        if (!ch[i])
+        if (vist[i])
+            continue;
+
+        queue<int> Q;
+        Q.push(i);
+        vist[i] = true;
+        result++;
+
+        while (!Q.empty())
         {
-            result++;
-            DFS(i);
+            int Num = Q.front();
+            Q.pop();
+
+            for (const auto& iter : Vertex[Num])
+            {
+                if (vist[iter])
+                    continue;
+
+                Q.push(iter);
+                vist[iter] = true;
+            }
         }
     }
-   
-    cout << result << '\n';
+
+    return result;
+};
+
+int main()
+{
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+
+    cin >> N >> M;
+
+    for (int i = 0; i < M; i++)
+    {
+        int u, v;
+        cin >> u >> v;
+
+        Vertex[u].push_back(v);
+        Vertex[v].push_back(u);
+    }
+
+    cout << BFS() << '\n';
 
     return 0;
 }
