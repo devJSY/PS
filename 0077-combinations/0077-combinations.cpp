@@ -11,14 +11,9 @@ public:
 
         for (int i = num + 1; i <= N; ++i)
         {
-            if (!visited[i])
-            {
-                visited[i] = true;
-                str.push_back(i);
-                dfs(L + 1, i, str);
-                str.pop_back();
-                visited[i] = false;
-            }
+            str.push_back(i);
+            dfs(L + 1, i, str);
+            str.pop_back();
         }
     }
 
@@ -27,11 +22,8 @@ public:
         N = n;
         K = k;
 
-        visited.resize(50);
-
         for (int i = 1; i <= N; ++i)
         {
-            visited[i] = true;
             dfs(1, i, {i});
         }
 
@@ -40,7 +32,6 @@ public:
 
 private:
     vector<vector<int>> result;
-    vector<bool> visited;
     int N;
     int K;
 };
