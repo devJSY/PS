@@ -5,11 +5,13 @@ public:
     {
         std::set<int> Set;
 
+        // 중복제거
         for (int i = 0; i < nums1.size(); ++i)
         {
             Set.insert(nums1[i]);
         }
 
+        // nums1 집합에 포함되어있는지 탐색 
         std::set<int> ResultSet;
         for (int i = 0; i < nums2.size(); ++i)
         {
@@ -18,7 +20,7 @@ public:
                 ResultSet.insert(nums2[i]);
             }
         }
-
+        
         vector<int> result;
         for (const int& elem : ResultSet)
         {
