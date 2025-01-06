@@ -1,27 +1,21 @@
-#include <bits/stdc++.h>
+#include <iostream>
 
 using namespace std;
 
+int DP[1000001];
+
 int main()
 {
-    ios_base ::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
-
     int N;
     cin >> N;
 
-    vector<int> DP(N + 1);
+    DP[2] = 1;
+    DP[3] = 1;
 
-    for (int i = 0; i <= N; ++i)
+    for (int i = 4; i <= N; ++i)
     {
-        DP[i] = i;
-    }
+        DP[i] = 987654321;
 
-    DP[1] = 0;
-
-    for (int i = 2; i <= N; ++i)
-    {
         if (i % 3 == 0)
         {
             DP[i] = min(DP[i], DP[i / 3] + 1);
@@ -35,7 +29,7 @@ int main()
         DP[i] = min(DP[i], DP[i - 1] + 1);
     }
 
-    cout << DP[N] << '\n';
+    cout << DP[N];
 
     return 0;
 }
