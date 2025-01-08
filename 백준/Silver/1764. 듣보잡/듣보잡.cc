@@ -1,50 +1,46 @@
 #include <iostream>
-#include <map>
+#include <unordered_set>
+#include <algorithm>
 #include <string>
 
 using namespace std;
 
 int main()
 {
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
 
-	map<string, int> Map;
+    int N, M;
+    cin >> N >> M;
 
-	int n = 0;
-	int m = 0;
+    unordered_set<string> hash;
 
-	cin >> n >> m;
+    for (int i = 0; i < N; ++i)
+    {
+        string str;
+        cin >> str;
+        hash.insert(str);
+    }
 
-	string str;
+    vector<string> result;
 
-	for (size_t i = 0; i < n; i++)
-	{
-		cin >> str;
-		Map[str]++;
-	}
+    for (int i = 0; i < M; ++i)
+    {
+        string str;
+        cin >> str;
+        if (hash.find(str) != hash.end())
+        {
+            result.push_back(str);
+        }
+    }
 
-	int cnt = 0;
+    sort(result.begin(), result.end());
+    cout << result.size() << '\n';
+    for (const auto& elem : result)
+    {
+        cout << elem << '\n';
+    }
 
-	for (size_t i = 0; i < m; i++)
-	{
-		cin >> str;
-		Map[str]++;
-		if (Map[str] == 2) cnt++;
-	}
-
-	cout << cnt << '\n';
-
-	map<string, int>::iterator iter = Map.begin();
-
-	for (; iter != Map.end(); iter++)
-	{
-		if (iter->second == 2)
-		{
-			cout << iter->first << '\n';
-		}
-	}
-
-	return 0;
+    return 0;
 }
