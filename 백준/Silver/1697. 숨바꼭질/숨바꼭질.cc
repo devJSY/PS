@@ -1,50 +1,53 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <queue>
+#include <utility>
 
 using namespace std;
 
-int N, K;
-
-bool vist[2000005];
+bool visited[100001];
+const int MinBound = 0;
+const int MaxBound = 100000;
 
 int main()
 {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
 
+    int N, K;
     cin >> N >> K;
 
     queue<pair<int, int>> Q;
     Q.push(make_pair(0, N));
-    vist[N] = 1;
+    visited[N] = true;
 
     while (!Q.empty())
     {
-        int V, Num;
-        tie(V, Num) = Q.front();
+        auto [Depth, Num] = Q.front();
         Q.pop();
 
         if (Num == K)
         {
-            cout << V;
+            cout << Depth;
             break;
         }
 
-        if (Num * 2 <= 100000 && !vist[Num * 2])
+        if (Num + 1 <= MaxBound && !visited[Num + 1])
         {
-            vist[Num * 2] = 1;
-            Q.push(make_pair(V + 1, Num * 2));
+            Q.push(make_pair(Depth + 1, Num + 1));
+            visited[Num + 1] = true;
         }
 
-        if (Num + 1 <= 100000 && !vist[Num + 1])
+        if (Num - 1 >= MinBound && !visited[Num - 1])
         {
-            vist[Num + 1] = 1;
-            Q.push(make_pair(V + 1, Num + 1));
+            Q.push(make_pair(Depth + 1, Num - 1));
+            visited[Num - 1] = true;
         }
 
-        if (Num - 1 >= 0 && !vist[Num - 1])
+        if (Num * 2 <= MaxBound && !visited[Num * 2])
         {
-            vist[Num - 1] = 1;
-            Q.push(make_pair(V + 1, Num - 1));
+            Q.push(make_pair(Depth + 1, Num * 2));
+            visited[Num * 2] = true;
         }
     }
 
