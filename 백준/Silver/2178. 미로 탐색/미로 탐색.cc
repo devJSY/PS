@@ -1,61 +1,64 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <tuple>
 
 using namespace std;
 
-int ch[105][105];
-int arr[105][105];
-
-int dx[4] = { 0, 1, 0 ,-1 };
-int dy[4] = { 1, 0, -1, 0 };
+const int dx[4] = {1, 0, -1, 0};
+const int dy[4] = {0, 1, 0, -1};
 
 int main()
 {
-	ios::sync_with_stdio(0);
-	cin.tie(0);
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
 
-	queue<pair<pair<int, int>, int>> Q;
+    int N, M;
+    cin >> N >> M;
 
-	int n, m;
-	cin >> n >> m;
+    vector<vector<bool>> vec(N, vector<bool>(M, false));
 
-	for (size_t y = 1; y <= n; y++)
-	{
-		string num;
-		cin >> num;
+    for (int y = 0; y < N; ++y)
+    {
+        string str;
+        cin >> str;
+        for (int x = 0; x < M; ++x)
+        {
+            vec[y][x] = str[x] - '0';
+        }
+    }
 
-		int idx = 1;
-		for (char ch : num)
-		{
-			arr[y][idx++] = ch - '0';
-		}
-	}
+    // X, Y, dist
+    queue<tuple<int, int, int>> Q;
+    Q.push(make_tuple(0, 0, 1));
+    int ret = 987654321;
+    vec[0][0] = false;
 
-	ch[1][1] = 1;
-	Q.push({ {1,1}, 1 });
+    while (!Q.empty())
+    {
+        auto [x, y, dist] = Q.front();
+        Q.pop();
 
-	while (!Q.empty())
-	{
-		auto t = Q.front();
-		Q.pop();
+        if (x == M - 1 && y == N - 1)
+        {
+            ret = min(ret, dist);
+        }
 
-		for (size_t dir = 0; dir < 4; dir++)
-		{
-			int ny = t.first.first + dy[dir];
-			int nx = t.first.second + dx[dir];
+        for (int dir = 0; dir < 4; ++dir)
+        {
+            int nx = x + dx[dir];
+            int ny = y + dy[dir];
 
-			if (ny < 1 || ny > n || nx < 1 || nx > m) continue;
-			if (ch[ny][nx] || arr[ny][nx] == 0) continue;
+            if (nx < 0 || nx >= M || ny < 0 || ny >= N || !vec[ny][nx])
+                continue;
 
-			if (ny == n && nx == m)
-			{
-				cout << t.second + 1;
-				return 0;
-			}
+            Q.push(make_tuple(nx, ny, dist + 1));
+            vec[ny][nx] = false;
+        }
+    }
 
-			ch[ny][nx] = 1;
-			Q.push({ {ny, nx}, t.second + 1 });
-		}
-	}
+    cout << ret << '\n';
 
-	return 0;
+    return 0;
 }
