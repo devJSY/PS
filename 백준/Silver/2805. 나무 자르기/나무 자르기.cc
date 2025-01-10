@@ -1,50 +1,54 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
 
 using namespace std;
 
 int N, M;
-int arr[1000005] = {};
+vector<int> arr;
 
-bool solve(int x)
+bool solve(int h)
 {
-    long long cnt = 0;
-    for (int i = 0; i < N; i++)
+    long long sum = 0;
+    for (int i = 0; i < arr.size(); ++i)
     {
-        if (x >= arr[i])
-            continue;
-
-        cnt += arr[i] - x;
+        sum += max(0, arr[i] - h);
     }
 
-    return cnt >= M;
+    return sum >= M;
 }
 
 int main()
 {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
 
     cin >> N >> M;
 
-    for (size_t i = 0; i < N; i++)
-    {
-        cin >> arr[i];
-    }
+    arr.resize(N);
 
     int st = 0;
-    int ed = *max_element(arr, arr + N);
+    int ed = 0;
+    for (int i = 0; i < N; ++i)
+    {
+        cin >> arr[i];
+        ed = max(ed, arr[i]);
+    }
 
     while (st < ed)
     {
         int mid = (st + ed + 1) / 2;
-
         if (solve(mid))
+        {
             st = mid;
+        }
         else
+        {
             ed = mid - 1;
+        }
     }
 
-    cout << st;
+    cout << st << '\n';
 
     return 0;
 }
