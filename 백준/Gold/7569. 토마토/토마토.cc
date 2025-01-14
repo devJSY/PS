@@ -1,102 +1,113 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <queue>
+#include <tuple>
+
 using namespace std;
 
-int board[105][105][105];
-int vis[105][105][105];
+const int dx[6] = {1, 0, -1, 0, 0, 0};
+const int dy[6] = {0, 1, 0, -1, 0, 0};
+const int dz[6] = {0, 0, 0, 0, 1, -1};
 
-int dx[6] = {0, 1, 0, -1, 0, 0};
-int dy[6] = {1, 0, -1, 0, 0, 0};
-int dz[6] = {0, 0, 0, 0, -1, 1};
+int M, N, H;
 
-int m, n, h;
+// H, N, M
+int Graph[105][105][105];
 
-int main(void)
+int result = 0;
+
+// z, y, x
+queue<tuple<int, int, int>> Q;
+
+bool Check()
 {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-
-    queue<tuple<int, int, int, int>> Q; // z,y,x, day
-
-    cin >> m >> n >> h;
-
-    for (size_t height = 0; height < h; height++)
+    for (int z = 0; z < H; ++z)
     {
-        for (size_t y = 0; y < n; y++)
+        for (int y = 0; y < N; ++y)
         {
-            fill(vis[height][y], vis[height][y] + m, -1);
-        }
-    }
-
-    bool flag = true;
-
-    for (size_t height = 0; height < h; height++)
-    {
-        for (size_t y = 0; y < n; y++)
-        {
-            for (size_t x = 0; x < m; x++)
+            for (int x = 0; x < M; ++x)
             {
-                cin >> board[height][y][x];
-                if (board[height][y][x] == 1)
+                if (Graph[z][y][x] == 0)
                 {
-                    Q.push({height, y, x, 0});
-                    vis[height][y][x] = 0;
-                }
-                
-                 if (board[height][y][x] == 0)
-                {
-                    flag = false;
+                    return false;
                 }
             }
         }
     }
 
-    if (flag)
-    {
-        cout << 0 << '\n';
-        return 0;
-    }
+    return true;
+}
 
+void bfs()
+{
     while (!Q.empty())
     {
-        auto t = Q.front();
+        auto [_z, _y, _x] = Q.front();
         Q.pop();
 
-        for (size_t dir = 0; dir < 6; dir++)
-        {
-            int nz = get<0>(t) + dz[dir];
-            int ny = get<1>(t) + dy[dir];
-            int nx = get<2>(t) + dx[dir];
+        result = max(result, Graph[_z][_y][_x] - 1);
 
-            if (nz < 0 || nz > h || ny < 0 || ny > n || nx < 0 || nx > m)
+        for (int dir = 0; dir < 6; ++dir)
+        {
+            int nz = _z + dz[dir];
+            int ny = _y + dy[dir];
+            int nx = _x + dx[dir];
+
+            if (nz < 0 || nz >= H || ny < 0 || ny >= N || nx < 0 || nx >= M || Graph[nz][ny][nx] != 0)
                 continue;
-            if (board[nz][ny][nx] == 0 && vis[nz][ny][nx] == -1)
-            {
-                Q.push({nz, ny, nx, get<3>(t) + 1});
-                vis[nz][ny][nx] = get<3>(t) + 1;
-            }
+
+            Q.push(make_tuple(nz, ny, nx));
+            Graph[nz][ny][nx] = Graph[_z][_y][_x] + 1;
         }
     }
+}
 
-    int Max = -1;
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
 
-    for (size_t height = 0; height < h; height++)
+    cin >> M >> N >> H;
+
+    bool HasZero = false;
+    for (int z = 0; z < H; ++z)
     {
-        for (size_t y = 0; y < n; y++)
+        for (int y = 0; y < N; ++y)
         {
-            for (size_t x = 0; x < m; x++)
+            for (int x = 0; x < M; ++x)
             {
-                if (vis[height][y][x] == -1 && board[height][y][x] == 0)
+                int num;
+                cin >> num;
+                Graph[z][y][x] = num;
+                if (num == 0)
                 {
-                    cout << -1 << '\n';
-                    return 0;
+                    HasZero = true;
                 }
-
-                Max = std::max(Max, vis[height][y][x]);
+                if (Graph[z][y][x] == 1)
+                {
+                    Q.push(make_tuple(z, y, x));
+                }
             }
         }
     }
 
-    cout << Max;
+    if (!HasZero)
+    {
+        cout << 0 << '\n';
+    }
+    else
+    {
+        bfs();
+
+        if (!Check())
+        {
+            cout << -1 << '\n';
+        }
+        else
+        {
+            cout << result << '\n';
+        }
+    }
 
     return 0;
 }
