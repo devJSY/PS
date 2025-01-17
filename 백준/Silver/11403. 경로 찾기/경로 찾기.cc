@@ -1,56 +1,59 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
 
 int N;
-vector<int> arr[105];
-bool vist[105];
-int result[105][105];
+vector<int> adj[105];
+vector<bool> visited;
+vector<vector<int>> result;
 
-void DFS(int _Num)
+void DFS(int start, int idx)
 {
-    for (int i = 0; i < arr[_Num].size(); i++)
+    for (const int& next : adj[idx])
     {
-        if (vist[arr[_Num][i]])
-            continue;
-
-        vist[arr[_Num][i]] = true;
-        DFS(arr[_Num][i]);
+        if (!visited[next])
+        {
+            visited[next] = true;
+            result[start][next] = 1;
+            DFS(start, next);
+        }
     }
 }
 
 int main()
 {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
 
     cin >> N;
+    visited.resize(N);
+    result.resize(N, vector<int>(N, 0));
 
-    for (size_t y = 0; y < N; y++)
+    for (int y = 0; y < N; ++y)
     {
-        for (size_t x = 0; x < N; x++)
+        for (int x = 0; x < N; ++x)
         {
-            int Num;
-            cin >> Num;
-            if (0 < Num)
-                arr[y].push_back(x);
+            int num;
+            cin >> num;
+            if (num)
+            {
+                adj[y].push_back(x);
+            }
         }
     }
 
-    for (int i = 0; i < N; i++)
+    for (int i = 0; i < N; ++i)
     {
-        std::fill(vist, vist + N, false);
-        DFS(i);
-
-        for (size_t j = 0; j < N; j++)
-        {
-            result[i][j] = vist[j];
-        }
+        std::fill(visited.begin(), visited.end(), false);
+        DFS(i, i);
     }
 
-    for (size_t y = 0; y < N; y++)
+    for (int y = 0; y < N; ++y)
     {
-        for (size_t x = 0; x < N; x++)
+        for (int x = 0; x < N; ++x)
         {
             cout << result[y][x] << " ";
         }
