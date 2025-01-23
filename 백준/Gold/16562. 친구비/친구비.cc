@@ -1,72 +1,72 @@
-
 #include <iostream>
-#include <vector>
-#include <tuple>
 
 using namespace std;
 
+const int MAXNUM = 100005;
+
+int parent[MAXNUM];
+int cost[MAXNUM];
+bool visited[MAXNUM];
+
 int N, M, K;
 
-vector<vector<int>> adj;
-vector<int> cost;
-vector<bool> visited;
-
-int DFS(int Student)
+int Find(int x)
 {
-    int MinCost = cost[Student];
+    if (x == parent[x])
+        return x;
 
-    for (int next : adj[Student])
+    return parent[x] = Find(parent[x]);
+}
+
+void Union(int a, int b)
+{
+    a = Find(a);
+    b = Find(b);
+    if (cost[a] >= cost[b])
     {
-        if (visited[next])
-            continue;
-
-        visited[next] = true;
-        MinCost = min(MinCost, DFS(next));
+        parent[a] = b;
     }
-
-    return MinCost;
+    else
+    {
+        parent[b] = a;
+    }
 }
 
 int main()
 {
-    ios_base::sync_with_stdio(false);
+    ios_base::sync_with_stdio(NULL);
     cin.tie(NULL);
     cout.tie(NULL);
 
     cin >> N >> M >> K;
 
-    adj.resize(N + 1);
-    cost.resize(N + 1);
-    visited.resize(N + 1);
-
     for (int i = 1; i <= N; ++i)
     {
+        parent[i] = i;
         cin >> cost[i];
     }
 
     for (int i = 0; i < M; ++i)
     {
-        int u, v;
-        cin >> u >> v;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
+        int a, b;
+        cin >> a >> b;
+        Union(a, b);
     }
 
-    // 그룹, 그룹 비용
-    int TotalCost = 0;
-
+    int ret = 0;
     for (int i = 1; i <= N; ++i)
     {
-        if (!visited[i])
+        int P = Find(i);
+        if (!visited[P])
         {
-            visited[i] = true;
-            TotalCost += DFS(i);
+            ret += cost[P];
+            visited[P] = true;
         }
     }
 
-    if (TotalCost <= K)
+    if (ret <= K)
     {
-        cout << TotalCost << '\n';
+        cout << ret << '\n';
     }
     else
     {
