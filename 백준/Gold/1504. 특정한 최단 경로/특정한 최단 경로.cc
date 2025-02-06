@@ -1,38 +1,38 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <utility>
+#include <queue>
 
 using namespace std;
 
+const int INF = 987654321;
+
 int N, E;
+int u, v;
 
-vector<pair<int, int>> adj[805];
-long long d[3][805];
+// Node, Dist
+vector<vector<pair<int, int>>> Graph;
 
-int V1, V2;
+long long ret[3][805];
 
-const int INF = 0x3f3f3f3f;
-
-void Dijkstra(int st, int idx)
+void Dijkstra(int StartIdx, int Step)
 {
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pQ;
-
-    pQ.push(make_pair(0, st));
-    d[idx][st] = 0;
+    // Node, Dist
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pQ;
+    pQ.push(make_pair(StartIdx, 0));
+    ret[Step][StartIdx] = 0;
 
     while (!pQ.empty())
     {
-        int cost, V;
-        tie(cost, V) = pQ.top();
+        auto [Node, Dist] = pQ.top();
         pQ.pop();
 
-        if (d[idx][V] != cost)
-            continue;
-
-        for (const auto& elem : adj[V])
+        for (const auto& elem : Graph[Node])
         {
-            if (d[idx][elem.second] > cost + elem.first)
+            if (Dist + elem.second < ret[Step][elem.first])
             {
-                d[idx][elem.second] = cost + elem.first;
-                pQ.push(make_pair(d[idx][elem.second], elem.second));
+                ret[Step][elem.first] = Dist + elem.second;
+                pQ.push(make_pair(elem.first, Dist + elem.second));
             }
         }
     }
@@ -40,37 +40,49 @@ void Dijkstra(int st, int idx)
 
 int main()
 {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
+    ios_base::sync_with_stdio(NULL);
+    cin.tie(NULL);
+    cout.tie(NULL);
 
     cin >> N >> E;
 
-    for (size_t i = 0; i < 3; i++)
-    {
-        std::fill(d[i], d[i] + N + 1, INF);
-    }
+    Graph.resize(N + 1);
 
-    for (size_t i = 0; i < E; i++)
+    for (int i = 0; i < E; ++i)
     {
         int a, b, c;
         cin >> a >> b >> c;
-        adj[a].push_back(make_pair(c, b));
-        adj[b].push_back(make_pair(c, a));
+        Graph[a].push_back(make_pair(b, c));
+        Graph[b].push_back(make_pair(a, c));
     }
 
-    cin >> V1 >> V2;
+    cin >> u >> v;
+
+    // 거리값 초기화
+    for (int i = 0; i < 3; ++i)
+    {
+        for (int j = 0; j < 805; ++j)
+        {
+            ret[i][j] = INF;
+        }
+    }
 
     Dijkstra(1, 0);
-    Dijkstra(V1, 1);
-    Dijkstra(V2, 2);
+    Dijkstra(u, 1);
+    Dijkstra(v, 2);
 
-    long long result = std::min(d[0][V1] + d[1][V2] + d[2][N], d[0][V2] + d[2][V1] + d[1][N]);
+    long long result = INF;
 
-    if (INF <= result)
-        cout << -1;
+    result = min(ret[0][u] + ret[1][v] + ret[2][N], ret[0][v] + ret[2][u] + ret[1][N]);
+
+    if (result >= INF)
+    {
+        cout << -1 << '\n';
+    }
     else
-        cout << result;
+    {
+        cout << result << '\n';
+    }
 
     return 0;
 }
-
