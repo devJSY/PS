@@ -1,60 +1,74 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <utility>
 
 using namespace std;
 
+int V, E, K;
+
+// 노드, 비용
+vector<vector<pair<int, int>>> Graph;
+
 const int INF = 987654321;
 
-int N, M, K;
+int ret[20005];
 
-vector<pair<int, int>> adj[20005]; // 가중치, 간선
-int d[20005];
-
-int main()
+void Dijkstar()
 {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-
-    cin >> N >> M >> K;
-
-    std::fill(d, d + N + 1, INF);
-
-    for (size_t i = 0; i < M; i++)
-    {
-        int u, v, w;
-        cin >> u >> v >> w;
-        adj[u].push_back(make_pair(w, v));
-    }
-
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pQ; // 가중치, 간선
-
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pQ;
     pQ.push(make_pair(0, K));
-    d[K] = 0;
+    ret[K] = 0;
 
     while (!pQ.empty())
     {
-        int w, v;
-        tie(w, v) = pQ.top();
+        auto [Dist, Node] = pQ.top();
         pQ.pop();
 
-        if (d[v] != w)
-            continue;
-
-        for (const auto& elem : adj[v])
+        for (const auto& elem : Graph[Node])
         {
-            if (d[elem.second] > w + elem.first)
+            if (Dist + elem.second < ret[elem.first])
             {
-                d[elem.second] = w + elem.first;
-                pQ.push(make_pair(w + elem.first, elem.second));
+                ret[elem.first] = Dist + elem.second;
+                pQ.push(make_pair(Dist + elem.second, elem.first));
             }
         }
     }
+}
 
-    for (size_t i = 1; i <= N; i++)
+int main()
+{
+    ios_base::sync_with_stdio(NULL);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    cin >> V >> E >> K;
+
+    Graph.resize(V + 1);
+    for (int i = 0; i <= V; ++i)
     {
-        if (d[i] == INF)
+        ret[i] = INF;
+    }
+
+    for (int i = 0; i < E; ++i)
+    {
+        int u, v, w;
+        cin >> u >> v >> w;
+        Graph[u].push_back(make_pair(v, w));
+    }
+
+    Dijkstar();
+
+    for (int i = 1; i <= V; ++i)
+    {
+        if (ret[i] == INF)
+        {
             cout << "INF" << '\n';
+        }
         else
-            cout << d[i] << '\n';
+        {
+            cout << ret[i] << '\n';
+        }
     }
 
     return 0;
