@@ -1,77 +1,82 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <utility>
+#include <string>
+#include <tuple>
 
 using namespace std;
 
-int board[1005][1005];
-int dist[2][1005][1005];
-int n, m;
+int N, M;
+vector<vector<int>> adj;
+int result[2][1005][1005];
 
-int dx[4] = { 0,1,0,-1 };
-int dy[4] = { 1,0,-1,0 };
+const int dx[] = {0, 0, 1, -1};
+const int dy[] = {1, -1, 0, 0};
+
+int bfs()
+{
+    // X, Y, 벽을 부술 순적이 있는지
+    queue<tuple<int, int, bool>> Q;
+    Q.push({0, 0, false});
+    result[0][0][0] = 1;
+    result[1][0][0] = 1;
+
+    while (!Q.empty())
+    {
+        auto [x, y, isBreak] = Q.front();
+        Q.pop();
+
+        if (x == M - 1 && y == N - 1)
+        {
+            return result[isBreak][N - 1][M - 1];
+        }
+
+        for (int dir = 0; dir < 4; ++dir)
+        {
+            int nx = x + dx[dir];
+            int ny = y + dy[dir];
+
+            if (nx < 0 || nx >= M || ny < 0 || ny >= N)
+                continue;
+
+            if (0 == adj[ny][nx] && 0 == result[isBreak][ny][nx])
+            {
+                result[isBreak][ny][nx] = result[isBreak][y][x] + 1;
+                Q.push(make_tuple(nx, ny, isBreak));
+            }
+            else if (1 == adj[ny][nx] && !isBreak && 0 == result[1][ny][nx])
+            {
+                result[1][ny][nx] = result[0][y][x] + 1;
+                Q.push(make_tuple(nx, ny, true));
+            }
+        }
+    }
+
+    return -1;
+}
 
 int main()
 {
-	ios::sync_with_stdio(0);
-	cin.tie(0);
+    ios_base::sync_with_stdio(NULL);
+    cin.tie(NULL);
+    cout.tie(NULL);
 
-	cin >> n >> m;
+    cin >> N >> M;
+    adj.resize(N, vector<int>(M, 0));
 
-	for (size_t y = 1; y <= n; y++)
-	{
-		string str;
-		cin >> str;
+    string str;
+    for (int i = 0; i < N; ++i)
+    {
+        cin >> str;
 
-		for (size_t x = 0; x < str.size(); x++)
-		{
-			board[y][x + 1] = str[x] - '0';
-		}
-	}
+        for (int j = 0; j < str.size(); ++j)
+        {
+            adj[i][j] = str[j] - '0';
+        }
+    }
 
-	queue<tuple<int, int, int>> Q;
-	Q.push({ 1,1,0 });
+    cout << bfs() << '\n';
 
-	while (!Q.empty())
-	{
-		int y, x, broken;
-
-		tie(y, x, broken) = Q.front();
-
-		if (y == n && x == m)
-		{
-			cout << dist[broken][y][x] + 1;
-			break;
-		}
-
-		Q.pop();
-
-		for (size_t dir = 0; dir < 4; dir++)
-		{
-			int ny = y + dy[dir];
-			int nx = x + dx[dir];
-
-			if (ny <= 0 || ny > n || nx <= 0 || nx > m) continue;
-
-			if (board[ny][nx] == 0 && dist[broken][ny][nx] == 0)
-			{
-				dist[broken][ny][nx] = dist[broken][y][x] + 1;
-				Q.push({ny,nx, broken});
-			}
-
-			if (broken == 0 && board[ny][nx] == 1 && dist[1][ny][nx] == 0)
-			{
-				dist[1][ny][nx] = dist[broken][y][x] + 1;
-				Q.push({ ny,nx, 1 });
-			}
-		}
-	}
-
-	if (Q.empty())
-	{
-		cout << -1;
-	}
-
-
-
-
-	return 0;
+    return 0;
 }
